@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Bolt-Headers">
+      <UniqueIdentifier>{51618254-26a4-45f1-bb14-ac38cbd4a559}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Bolt-Cpp">
+      <UniqueIdentifier>{0aaacf01-8aef-4726-bb48-02bc395d334a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Creature">
+      <UniqueIdentifier>{c31b75d4-f423-4dd9-ba8c-818470bdd633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Creature">
+      <UniqueIdentifier>{cf170962-3e0f-454f-bcb3-581418f673ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Class-Headers">
+      <UniqueIdentifier>{72e0da47-4b72-4dbd-aadf-1ad4956f2a6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Class.cpp">
+      <UniqueIdentifier>{a49741a8-f8dc-42ad-af36-dd3a6a108892}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FireMage.cpp">
+      <Filter>Source Files\Class.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="FrostMage.cpp">
+      <Filter>Source Files\Class.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="FireBolt.cpp">
+      <Filter>Source Files\Bolt-Cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="IceBolt.cpp">
+      <Filter>Source Files\Bolt-Cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="StandardWind.cpp">
+      <Filter>Source Files\Bolt-Cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Creature.cpp">
+      <Filter>Source Files\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="BallEnemy.cpp">
+      <Filter>Source Files\Class.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="MeleeAttack.cpp">
+      <Filter>Source Files\Bolt-Cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFeatures.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FrostNova.cpp">
+      <Filter>Source Files\Bolt-Cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="AbilityObjekt.cpp">
+      <Filter>Source Files\Bolt-Cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="AirMage.cpp">
+      <Filter>Source Files\Class.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMap.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Class.cpp">
+      <Filter>Source Files\Class.cpp</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FireMage.h">
+      <Filter>Header Files\Class-Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FrostMage.h">
+      <Filter>Header Files\Class-Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBolt.h">
+      <Filter>Header Files\Bolt-Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="IceBolt.h">
+      <Filter>Header Files\Bolt-Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="StandardWind.h">
+      <Filter>Header Files\Bolt-Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Creature.h">
+      <Filter>Header Files\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="BallEnemy.h">
+      <Filter>Header Files\Class-Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MeleeAttack.h">
+      <Filter>Header Files\Bolt-Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFeatures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FrostNova.h">
+      <Filter>Header Files\Bolt-Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="AbilityObjekt.h">
+      <Filter>Header Files\Bolt-Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="AirMage.h">
+      <Filter>Header Files\Class-Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Class.h">
+      <Filter>Header Files\Class-Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryLeak.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

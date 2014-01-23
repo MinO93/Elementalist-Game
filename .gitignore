@@ -11,3 +11,23 @@
 *.lai
 *.la
 *.a
+
+# asdasd
+
+Debug
+Release
+
+SickGame/Debug
+SickGame/Release
+SickGame/Audio
+SickGame/Pictures
+SickGame/x64
+
+SickGame/libsndfile-1.dll
+SickGame/openal32.dll
+
+
+x64
+SickGame.opensdf
+SickGame.sdf
+SickGame.sln

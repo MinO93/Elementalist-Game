@@ -1,0 +1,37 @@
+Block -ID's:
+0 = Air		- WalkAble
+1 = soil 	- Not WalkAble	
+2 = Soil+Gras 	- Not WalkAble
+3 = Stone 	- Not WalkAble
+4 = Stone 	- WalkAble
+11 = Soil 	- WalkAble
+
+Start positions:
+5 = Air
+7 = Stone
+11 = Cave
+
+Goal Positions:
+6 = Air
+8 = stone
+12 = Cave
+
+Fire Mage -ID's:
+50 = Air
+60 = Stone
+70 = Cave
+
+Frost Mage -ID's:
+51 = Air
+61 = Stone
+71 = Cave
+
+Air Mage -ID's:
+52 = Air
+62 = Stone
+72 = Cave
+
+Speedy Ball Creature -ID's:
+53 = Air
+63 = Stone
+73 = Cave
