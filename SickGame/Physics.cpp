@@ -43,6 +43,7 @@ void Physics::ResetValues()
 	m_SlowPower			= StandardSlowPower;
 	m_immobilize		= false;
 	m_immobilize_Timer	= 0;
+	m_JumpDelay			= 0;
 
 }
 
@@ -50,6 +51,7 @@ void Physics::Update( float deltaTime)
 {
 	m_AffectedByIce_Timer	-= deltaTime;
 	m_immobilize_Timer		-= deltaTime;
+	m_JumpDelay				-= deltaTime;
 
 	if(m_AffectedByIce_Timer < 0)
 	{
@@ -61,7 +63,9 @@ void Physics::Update( float deltaTime)
 		m_immobilize = false;
 	}
 
+	
 	MoveByWind(deltaTime);
+
 }
 
 bool Physics::MoveRight( float deltaTime)
@@ -102,67 +106,62 @@ bool Physics::MoveLeft(float deltaTime)
 
 void Physics::MoveDown(float deltaTime)
 {
-	if( m_JumpOn == false)
+	m_inAir = true;
+	
+	if(m_JumpTimer > GravityValue/GravitySpeed)
 	{
-		m_inAir = true;
-	
-		if(m_JumpTimer > GravityValue/GravitySpeed)
-		{
-	 		m_Acceleration_y -= 1;
-			m_JumpTimer = 0;
- 		}
-	
-		m_JumpTimer += deltaTime;
-		m_LastMove_y = -GravitySpeed*deltaTime*m_Acceleration_y;
-		users_sprite->move(0.0, m_LastMove_y);
-	
-		//Detta händer om spelaren kolliderar
-		if( GameFeatures::Check_Collision_With_StandardBlocks(*users_Creature) )
-		{
-			users_sprite->move(0, -m_LastMove_y);
+	 	m_Acceleration_y -= 1;
+		m_JumpTimer = 0;
+ 	}
 
-			SetJumpOff();
-			m_inAir = false;
-		}
-	}
-}
+	m_JumpTimer += deltaTime;
+	m_LastMove_y = -GravitySpeed*deltaTime*m_Acceleration_y;
+	users_sprite->move(0.0, m_LastMove_y);
 
-void Physics::MoveUp(float deltaTime )
-{
-	if(( m_JumpOn == false && m_inAir == false) || m_JumpOn == true)
+
+	//Detta händer om spelaren kolliderar
+	if( GameFeatures::Check_Collision_With_StandardBlocks(*users_Creature) )
 	{
 		if(m_JumpOn == false)
 		{
-			m_Acceleration_y = 3;
-
-			if(m_AffectedByIce == true)
-			{
-				m_Acceleration_y = 2;
-			}
-
+			m_inAir = false;
 		}
 
-		if(m_JumpTimer > GravityValue/GravitySpeed)
+		// Om Spelaren hoppar och kolliderar med taket dirrekt ska hoppet få en delay till nästa hopp
+		// När m_Acceleration_y == 3 händer bara när spelaren är mellan 2 ståbart block, på Y-axeln
+		if(m_Acceleration_y == 3)
 		{
-			m_Acceleration_y -= 1;
-			m_JumpTimer = 0;
+			m_JumpDelay = 1;
 		}
 
-		// får inte vara mindre än -1
-		if (m_Acceleration_y == -1)
-		{
-			m_JumpOn = false;
-		} 
-
-		m_JumpTimer += deltaTime;
-		m_LastMove_y = -GravitySpeed*deltaTime*m_Acceleration_y;
-		users_sprite->move(0.0, m_LastMove_y);
-	}
-	if( GameFeatures::Check_Collision_With_StandardBlocks(*users_Creature) )
-	{
 		users_sprite->move(0, -m_LastMove_y);
-		SetJumpOff();
+
+		// Ressettar Hopp/Fall-Accelerationen
+		m_JumpTimer = 0;
+		m_Acceleration_y = -1;
+		m_JumpOn = false;
 	}
+
+}
+
+bool Physics::bool_StandardJump(float deltaTime )
+{
+	if( m_inAir == false && m_JumpDelay < 0 )
+	{
+		// Sätter Accelerationen till 3 eller 2 för att få en uppåt rörelse
+		if(m_AffectedByIce == false)
+		{
+			m_Acceleration_y = 3;
+		}
+		else if(m_AffectedByIce == true)
+		{
+			m_Acceleration_y = 2;
+		}
+		m_JumpOn = true;
+		m_JumpDelay = 0.2;
+		return true;
+	}
+	return false;
 }
 
 void Physics::SetJumpOff()

@@ -52,9 +52,11 @@ private:
     }
 
 	int m_JoyStickPlayer;
-	float Joystick_x_value;
-	float Joystick_Z_value;
-	bool Joystick_Change_Mage;
+	float m_Joystick_x_value;
+	float m_Joystick_Z_value;
+	bool m_WasPress_ChangeMage;
+	bool m_WasPress_StandardJump;
+	bool m_WasPress_SpecialAbility;
 
 	Class* mage[3];
 	Physics * m_physics;
@@ -68,7 +70,7 @@ private:
 	Faction faction;
 	
 	sf::Clock C_StandardSpell;
-	float SpecialAbility_timer;
+	float m_SpecialAbility_timer;
 
 	float m_SpawnPosition_x;
 	float m_SpawnPosition_y;
