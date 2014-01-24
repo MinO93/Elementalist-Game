@@ -100,11 +100,11 @@ void Player::initilize()
 
 void Player::LoadSound()
 {
-	JumpFile.loadFromFile("jump.wav");
+	JumpFile.loadFromFile("Audio/jump.wav");
 	JumpSound.setBuffer(JumpFile);
 	JumpSound.setPitch(5);
 
-	TakeDamageFile.loadFromFile("ajajaj.wav");
+	TakeDamageFile.loadFromFile("Audio/ajajaj.wav");
 	TakeDamageSound.setBuffer(TakeDamageFile);
 	TakeDamageSound.setPlayingOffset(sf::seconds(0));
 }
