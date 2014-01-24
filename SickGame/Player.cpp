@@ -29,7 +29,7 @@ Player::Player(int spelare) :
 	MageSpecialiaztionIndex(0),
 	faction (FRIEND),
 	m_IsAlive(true),
-	Joystick_Change_Mage(true),
+	m_WasPress_ChangeMage(true),
 	m_JoyStickPlayer(spelare)
 {
 	mage[0] = new FireMage;
@@ -94,7 +94,7 @@ void Player::initilize()
 	sprite.setPosition(sf::Vector2f(m_SpawnPosition_x, m_SpawnPosition_y));
 	m_Diraction_Right = true;
 	C_StandardSpell.restart();
-	SpecialAbility_timer = 5;
+	m_SpecialAbility_timer = 5;
 	m_IsAlive = true;
 }
 
@@ -115,7 +115,7 @@ void Player::Update(float deltaTime)
 	HealthBar.setSize(sf::Vector2f(m_HealthPoints/2, HealthBar_y));
 	HealthBarBlackFrame.setPosition(sf::Vector2f((sprite.getPosition().x + TextureSize_x/2) -HealthBar_x/2, sprite.getPosition().y-20));
 
-	int SpecialAbilitySizeBar = SpecialAbility_timer * 10;
+	int SpecialAbilitySizeBar = m_SpecialAbility_timer * 10;
 	if (SpecialAbilitySizeBar > 50){ SpecialAbilitySizeBar = 50; }
 	SpecialAbilityBar.setSize(sf::Vector2f(SpecialAbilitySizeBar, SpecialAbilityBar_y));
 	SpecialAbilityBar.setPosition(HealthBarBlackFrame.getPosition() + sf::Vector2f( 0, HealthBar_y + HealthBarOutlineThickness ));
@@ -123,7 +123,7 @@ void Player::Update(float deltaTime)
 
 	if(!sf::Joystick::isButtonPressed(m_JoyStickPlayer, 4) && !sf::Joystick::isButtonPressed(m_JoyStickPlayer, 5))
 	{
-		Joystick_Change_Mage = true;
+		m_WasPress_ChangeMage = true;
 	}
 
 	if( m_HealthPoints <= 0)
@@ -146,38 +146,46 @@ void Player::Update(float deltaTime)
 		PlayerMovement(deltaTime/5);
 	}
 
-	SpecialAbility_timer += deltaTime;
+	m_SpecialAbility_timer += deltaTime;
 	
 }
 
 void Player::PlayerMovement(float deltaTime)
 {
-	Joystick_x_value = sf::Joystick::getAxisPosition(m_JoyStickPlayer, sf::Joystick::X);
+	m_Joystick_x_value = sf::Joystick::getAxisPosition(m_JoyStickPlayer, sf::Joystick::X);
 
 	m_physics->MoveDown(deltaTime);
 	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || Joystick_x_value < -50)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || m_Joystick_x_value < -50)
 	{
 		m_physics->MoveLeft( deltaTime );
 		m_Diraction_Right = false;
 		m_AnimationTimer += 5000*deltaTime;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || Joystick_x_value > 50)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || m_Joystick_x_value > 50)
 	{
 		m_physics->MoveRight( deltaTime );
 		m_Diraction_Right = true;
 		m_AnimationTimer += 5000*deltaTime;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || sf::Joystick::isButtonPressed(m_JoyStickPlayer, 0))
+	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || sf::Joystick::isButtonPressed(m_JoyStickPlayer, 0))
+		&& m_WasPress_StandardJump == false
+		)
 	{
-		if(m_physics->Get_inAir() == false)
+		if(m_physics->bool_StandardJump( deltaTime ))
 		{
+			m_WasPress_StandardJump = true;
 			JumpSound.play();
-			m_physics->MoveUp( deltaTime );
 		}
 	}
+	else if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !sf::Joystick::isButtonPressed(m_JoyStickPlayer, 0))
+	{
+		m_WasPress_StandardJump = false;
+	}
+
+
 }
 
 
@@ -212,7 +220,7 @@ void Player::Animations(float deltaTime)
 
 		// När inte någon Piltagent är nere så byter gubben till stå bild, istället för spring bild
 		if((!sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) && 
-			(Joystick_x_value  < 50  && Joystick_x_value > -50))
+			(m_Joystick_x_value  < 50  && m_Joystick_x_value > -50))
 		{
 			if(m_Diraction_Right == false)		{ PlayerTexture = mage[MageSpecialiaztionIndex]->StandingLeft(); }
 			else if(m_Diraction_Right == true)	{ PlayerTexture = mage[MageSpecialiaztionIndex]->StandingRight(); }
@@ -242,20 +250,27 @@ void Player::SetPosition(float position_x, float position_y)
 void Player::Fire()
 {
 	sf::Time timer = C_StandardSpell.getElapsedTime();
-	Joystick_Z_value = sf::Joystick::getAxisPosition(m_JoyStickPlayer, sf::Joystick::Z);
+	m_Joystick_Z_value = sf::Joystick::getAxisPosition(m_JoyStickPlayer, sf::Joystick::Z);
 	
-	if (( sf::Keyboard::isKeyPressed(sf::Keyboard::Z) || sf::Joystick::isButtonPressed(m_JoyStickPlayer, 1) || Joystick_Z_value < -50 )&&   timer.asSeconds() > 0.5)
+	if (( sf::Keyboard::isKeyPressed(sf::Keyboard::Z) || sf::Joystick::isButtonPressed(m_JoyStickPlayer, 1) || m_Joystick_Z_value < -50 ) 
+		&&   timer.asSeconds() > 0.5)
 	{
 		C_StandardSpell.restart();
 		mage[MageSpecialiaztionIndex]->StandardSpell(m_Diraction_Right, GetPosition_x(), GetPosition_y(), faction);
 	}
 
-	if (( sf::Keyboard::isKeyPressed(sf::Keyboard::X) || sf::Joystick::isButtonPressed(m_JoyStickPlayer, 3) ) &&   SpecialAbility_timer > 5)
+	if (( sf::Keyboard::isKeyPressed(sf::Keyboard::X) || sf::Joystick::isButtonPressed(m_JoyStickPlayer, 3) ) 
+		&&  m_SpecialAbility_timer > 5
+		&& m_WasPress_SpecialAbility == false)
 	{
-		SpecialAbility_timer = 0;
+		m_WasPress_SpecialAbility = true;
+		m_SpecialAbility_timer = 0;
 		mage[MageSpecialiaztionIndex]->SpecialAbility(m_Diraction_Right, GetPosition_x(), GetPosition_y(), faction);
 	}
-
+	else if( !sf::Keyboard::isKeyPressed(sf::Keyboard::X) && !sf::Joystick::isButtonPressed(m_JoyStickPlayer, 3) )
+	{
+		m_WasPress_SpecialAbility = false;
+	}
 
 
 }
@@ -307,15 +322,15 @@ void Player::ChangeMageSpecialiaztion()
 		MageSpecialiaztionIndex = 2;
 	}
 
-	if(sf::Joystick::isButtonPressed(m_JoyStickPlayer, 4) && Joystick_Change_Mage == true)
+	if(sf::Joystick::isButtonPressed(m_JoyStickPlayer, 4) && m_WasPress_ChangeMage == true)
 	{
-		Joystick_Change_Mage = false;
+		m_WasPress_ChangeMage = false;
 		MageSpecialiaztionIndex++;
 		if(MageSpecialiaztionIndex > 2) { MageSpecialiaztionIndex = 0;}
 	}
-	if(sf::Joystick::isButtonPressed(m_JoyStickPlayer, 5) && Joystick_Change_Mage == true)
+	if(sf::Joystick::isButtonPressed(m_JoyStickPlayer, 5) && m_WasPress_ChangeMage == true)
 	{
-		Joystick_Change_Mage = false;
+		m_WasPress_ChangeMage = false;
 		MageSpecialiaztionIndex--;
 		if(MageSpecialiaztionIndex < 0) { MageSpecialiaztionIndex = 2;}
 	}

@@ -78,7 +78,6 @@ void Enemy::Update(float deltaTime, int PlayerPosition_x, int PlayerPosition_y)
 		HealthBar.setFillColor(sf::Color(255, 0, 0, 150));	
 	}
 
-	
 	m_physics->Update(deltaTime);
 	CreatureMovement(deltaTime);
 	Animations(deltaTime);

@@ -18,7 +18,7 @@ public:
 	bool MoveLeft(float deltaTime);
 	void MoveDown(float deltaTime);
 	void MoveUp(float deltaTime);
-	void Jump(float deltaTime);
+	bool bool_StandardJump(float deltaTime);
 	void SetJumpOff();
 	void MoveByWind(float deltaTime);
 
@@ -48,8 +48,8 @@ private:
 	float	m_SlowPower;
 
 	// immobilize variablar
-	bool m_immobilize;
-	float m_immobilize_Timer;
+	bool	m_immobilize;
+	float	m_immobilize_Timer;
 
 
 	// Movement Variabler
@@ -63,5 +63,6 @@ private:
 	bool	m_inAir;
 	bool	m_JumpOn;
 	float	m_JumpTimer;
+	float	m_JumpDelay;
 };
 
