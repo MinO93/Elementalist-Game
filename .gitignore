@@ -32,3 +32,10 @@ SickGame.opensdf
 SickGame.sdf
 
 
+# Elementalist-Editor
+
+Elementalist-Editor/Debug
+Elementalist-Editor/Release
+Elementalist-Editor/Elementalist-Editor/Debug
+Elementalist-Editor/Elementalist-Editor/Release
+Elementalist-Editor/Elementalist-Editor/Picture
