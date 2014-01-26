@@ -3,7 +3,6 @@
 
 #include "MemoryLeak.h"
 
-const int GameBlockSize = 75;
 const int GameWindowSize_x = 1400;
 const int GameWindowSize_y = 800;
 
@@ -29,6 +28,7 @@ Game::~Game(void)
 void Game::Run()
 {
 	sf::RenderWindow window(sf::VideoMode(GameWindowSize_x, GameWindowSize_y), "Elementalist");
+
 
 	//Laddar in alla banor som ligger i mappen "Map"
 	GameFeatures::LoadMap();		
@@ -87,18 +87,22 @@ void Game::Run()
 			////////	 Uppdaterar Kameran		/////////
 			/////////////////////////////////////////////
 			view.setCenter(GameFeatures::CameraUpdate(GameWindowSize_x/Zoom, GameWindowSize_y/Zoom ));	// Kameran sätts på spelaren													
-			window.setView(view);										// Fönstret använder Kameran som bild
+			window.setView(view);		// Fönstret använder Kameran som bild
+			
 
 			//////////////////////////////////////////////
 			//	Väljer vilka objekt som ska ritas ut	//
 			//////////////////////////////////////////////
 			window.clear();	
 			GameFeatures::Display(&window);		//Ritar ut alla Objekt
-
+			
 			//////////////////////////////////////////////
 			//	Ritar ut det vi har valt som ska ritas	//
 			//////////////////////////////////////////////
 			window.display();
+
+			
+		
 
 		}
 		//Detta sker efter spelaren har klarat leveln
