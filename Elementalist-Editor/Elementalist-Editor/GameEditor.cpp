@@ -1,5 +1,5 @@
 #include "GameEditor.h"
-#include <SFML\Graphics.hpp>
+
 #include <iostream>
 #include "ToolMenu.h"
 
@@ -58,7 +58,7 @@ void GameEditor::Run()
     while (window->isOpen())
     {
 		// check all the window's events that were triggered since the last iteration of the loop
-        sf::Event mEvent;
+       
         while (window->pollEvent(mEvent))
         {
             // "close requested" event: we close the window
@@ -81,6 +81,8 @@ void GameEditor::Run()
 					}
 				}
 			}
+			
+			
 
 			if (mEvent.type == sf::Event::MouseButtonPressed)
 			{
@@ -120,6 +122,11 @@ void GameEditor::Run()
 					ChangeBackgroundTile(mEvent.mouseButton.x, mEvent.mouseButton.y);
 				}
 			}
+
+
+
+
+			// End of the Press-Buttons
 		}
 
 		//////////////////////////////////////////////////
@@ -131,9 +138,18 @@ void GameEditor::Run()
 				m_MouseTile.setPosition(sf::Vector2f(mEvent.mouseMove.x - GameBlockSize/2, mEvent.mouseMove.y - GameBlockSize/2));
 			}
 
+		if( mEvent.type == sf::Event::MouseMoved
+			&& sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) 
+			&& sf::Mouse::isButtonPressed(sf::Mouse::Left)
+				)
+			{
+				if(m_ToolIsOpen == false)
+				{
+					ChangeBackgroundTile(mEvent.mouseMove.x, mEvent.mouseMove.y);
+				}
+			}
 
-
-
+		
 		//////////////////////////////////////////////////
 		// Render ////////////////////////////////////////
 		//////////////////////////////////////////////////
@@ -155,7 +171,7 @@ void GameEditor::Run()
 			toolmenu.RenderTiles(*window);
 		}
 		window->draw(m_MouseTile);
-		
+		AreaBigBuildLine();
 
         // end the current frame
         window->display();
@@ -179,7 +195,7 @@ void GameEditor::LoadAllTilesPictures()
 	// Laddar in Alla tiles
 	for(int i = 0; i < AmountOfTiles; i++)
 	{
-		m_Tiles[i].loadFromFile("tidesheet1.1.png", sf::IntRect(GameBlockSize*x, GameBlockSize*y, GameBlockSize, GameBlockSize));
+		m_Tiles[i].loadFromFile("Pictures/tidesheet1.1.png", sf::IntRect(GameBlockSize*x, GameBlockSize*y, GameBlockSize, GameBlockSize));
 
 		x++;
 		if( x >= AmountTilesOnRoad_X)
@@ -240,7 +256,57 @@ void GameEditor::ChangeBackgroundTile( int p_MousePosition_X, int p_MousePositio
 
 	int BlockID = ( BlockID_Y * m_MapSize_X) + BlockID_X;
 
-	m_TileData[BlockID] = m_CurrentMouseTileID;
+	if(BlockID >= 0 
+	&& BlockID < m_MapSize_X * m_MapSize_Y
+	&& BlockID_X <= m_MapSize_X - 1
+	)
+	{
+		m_TileData[BlockID] = m_CurrentMouseTileID;
+	}
+
+}
+
+void GameEditor::AreaBigBuildLine()
+{
+
+	if ( mEvent.type == sf::Event::MouseButtonPressed )
+	{
+		if (mEvent.mouseButton.button == sf::Mouse::Right && sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+		{
+			int BlockID_X = mEvent.mouseButton.x / 55;
+			int BlockID_Y = mEvent.mouseButton.y / 55;
+
+
+			m_AreaBigBuildLine_StartPosition = sf::Vector2f( (BlockID_X * 55 ) + 25, ( BlockID_Y * 55 ) + 25 );
+			m_AreaBigBuildLine[0].position = m_AreaBigBuildLine_StartPosition;
+			m_AreaBigBuildLine[1].position = m_AreaBigBuildLine_StartPosition;
+
+		}
+	}
+	
+
+	// Bugg här, Den ''funktionen'' under här kan ibland göra före den andra där uppe
+	// För in en bool som säger till att att start punkten har skapat för den nya AreaBigBuildLine punkten.
+
+
+	if ( sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && sf::Mouse::isButtonPressed(sf::Mouse::Right))
+	{
+	
+		if (mEvent.type == sf::Event::MouseMoved)
+		{
+			m_AreaBigBuildLine[1].position = sf::Vector2f( mEvent.mouseMove.x, mEvent.mouseMove.y );
+		}
+
+		window->draw(m_AreaBigBuildLine, 2, sf::Lines);
+	}
+
+	if ( sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && mEvent.mouseButton.button == sf::Mouse::Right)
+	{
+		int katt = 5;
+		int fisk = 5;
+	}
+
+	
 
 
 }

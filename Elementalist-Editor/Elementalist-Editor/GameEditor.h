@@ -1,5 +1,6 @@
 #pragma once
 #include "Tile.h"
+#include <SFML\Graphics.hpp>
 
 class GameEditor
 {
@@ -20,13 +21,19 @@ private:
 	int * m_TileData;
 	
 	sf::RenderWindow * window;
+	 sf::Event mEvent;
 	sf::Texture * m_Tiles;
 
 	sf::Sprite m_MouseTile;
 	int m_CurrentMouseTileID;
 
 
+	sf::Vector2f m_AreaBigBuildLine_StartPosition;
+	sf::Vertex  m_AreaBigBuildLine[2];
 
+
+
+	void AreaBigBuildLine();
 	void LoadStandardMap();
 	void LoadAllTilesPictures();
 	void RenderAllTiles();
